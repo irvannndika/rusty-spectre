@@ -12,7 +12,7 @@ llvm python3-clang
 
 FROM FROM rust:bookworm AS builder
 
-WORKDIR /app
+WORKDIR $HOME
 COPY . .
 RUN cargo build --release
 RUN cargo install wasm-pack
@@ -23,5 +23,5 @@ RUN cd rusty-spectre
 FROM debian:bookworm-slim AS runner
 
 WORKDIR /app
-COPY --from=builder /app/target/release/rusty-spectre /app/rusty-spectre
-CMD ["/app/rusty-spectre"]
+COPY --from=builder /$HOME/target/release/rusty-spectre /$HOME/rusty-spectre
+CMD ["/$HOME/rusty-spectre"]
